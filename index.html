@@ -5,36 +5,85 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
   <header>
     <h1>Weather Dashboard</h1>
   </header>
   <main>
-    <section>
-      <div>
+    <section id="search-and-history-container">
+      <div id="search-container">
         <form>
           <label><h2>Search for a City:</h2></label>
-          <input type="text">
-          <input type="submit" value="Submit">
+          <input type="text" placeholder="San Diego" autofocus id="search-text">
+          <input type="submit" value="Search" id="submit-btn">
         </form>
       </div>
-      <div id="search-history"></div>
+      <div id="search-history">
+        <!-- SAMPLE SAVED CITIES, WILL BE DYNAMICALLY GENERATED. DELETE EVENTUALLY -->
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+        <button type="button" class="saved-cities" id="data-id-1">City</button>
+      </div>
     </section>
-    <section>
-      <div id="current-city">
-        <h2>No city selected</h2>
-        <p>Temp: </p>
-        <p>Wind: </p>
-        <p>Humidity: </p>
-        <p>UV Index: </p>
+    <section id='display-container'>
+      <div id="current-city-container">
+        <h2 id="current-city">No city selected</h2>
+        <p id="temp">Temp: </p>
+        <p id="wind">Wind: </p>
+        <p id="humidity">Humidity: </p>
+        <p id="uv-index">UV Index: </p>
       </div>
       <div id="forecast">
         <h3>5-Day Forecast:</h3>
-        <container id="day-container"></container>
+        <container id="five-day-container">
+          <!-- SAMPLE CARDS, WILL BE DYNAMICALLY GENERATED. DELETE EVENTUALLY -->
+          <div id="day-card">
+            <h4>4/21/68</h4>
+            <span>image</span>
+            <p>Temp: 74</p>
+            <p>Windy: As fuck</p>
+            <p>Humidity: 66%</p>
+          </div>
+          <div id="day-card">
+            <h4>4/21/68</h4>
+            <span>image</span>
+            <p>Temp: 74</p>
+            <p>Windy: As fuck</p>
+            <p>Humidity: 66%</p>
+          </div>
+          <div id="day-card">
+            <h4>4/21/68</h4>
+            <span>image</span>
+            <p>Temp: 74</p>
+            <p>Windy: As fuck</p>
+            <p>Humidity: 66%</p>
+          </div>
+          <div id="day-card">
+            <h4>4/21/68</h4>
+            <span>image</span>
+            <p>Temp: 74</p>
+            <p>Windy: As fuck</p>
+            <p>Humidity: 66%</p>
+          </div>
+          <div id="day-card">
+            <h4>4/21/68</h4>
+            <span>image</span>
+            <p>Temp: 74</p>
+            <p>Windy: As fuck</p>
+            <p>Humidity: 66%</p>
+          </div>
+        </container>
       </div>
     </section>
   </main>
   
+  <script src="./assets/js/script.js"></script>
 </body>
 </html>

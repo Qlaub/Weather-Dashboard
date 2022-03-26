@@ -1,0 +1,135 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  margin: 30px 25px 15px 25px; 
+}
+
+header h1 {
+  background-image: linear-gradient(to bottom right, navy, purple, orange);
+  color: white;
+  border: 1px solid rgb(92, 0, 92);
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+main {
+  display: flex;
+}
+
+#search-and-history-container {
+  width:25%;
+  padding: 0 10px 0 25px;
+}
+
+#display-container {
+  width: 75%;
+  padding: 0 25px 0 10px;
+}
+
+#search-container {
+  border-bottom: 2px solid grey;
+}
+
+#search-text {
+  width: 100%;
+  border: 1px grey solid;
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 10px;
+  margin: 15px 0px;
+  letter-spacing: .3px;
+}
+
+#submit-btn {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: purple;
+  color: white;
+  letter-spacing: .3px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+#submit-btn:hover {
+  background-color: rgb(97, 0, 97);
+}
+
+#current-city-container {
+  border: 2px solid grey;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+#current-city,
+#temp,
+#wind,
+#humidity {
+  margin-bottom: 20px;
+}
+
+#current-city {
+  font-size: 28px;
+}
+
+#forecast {
+  margin-top: 15px;
+}
+
+#forecast h3 {
+  font-size: 20px;
+  letter-spacing: .2px;
+}
+
+#five-day-container {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+#day-card {
+  width: 20%;
+  margin: 10px 20px 0 20px;
+  background-color: rgb(60, 34, 78);
+  color: white;
+  padding: 14px 10px;
+}
+
+#day-card h4 {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+#day-card span,
+#day-card p {
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.saved-cities {
+  width: 100%;
+  border: none;
+  background-color: rgb(201, 201, 201);
+  margin-top: 15px;
+  padding: 8px;
+  letter-spacing: .3px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.saved-cities:hover {
+  background-color: rgb(185, 185, 185)
+}
