@@ -64,17 +64,18 @@ const updateCurrentWeather = function(data, name) {
   let icon = data.current.weather[0].icon
   let iconUrl = `http://openweathermap.org/img/wn/${icon}.png`
 
-  let imgEl = document.getElementsByClassName('weather-icon');
-  // If image doesn't already exist, create the element with the appropriate class name and ID
-  if (imgEl.length === 0) {
-    imgEl = document.createElement('img');
-    imgEl.className = 'weather-icon';
-    imgEl.id = 'current-weather-icon'
+  let imgTest = document.getElementById('current-weather-icon');
+  console.log(imgTest)
+  // If image element already exists, delete it
+  if (imgTest) {
+    imgTest.remove();
   } 
-
-  // Attach URL source to img element
+  
+  // create image displaying current weather status
+  let imgEl = document.createElement('img');
+  imgEl.className = 'weather-icon';
+  imgEl.id = 'current-weather-icon'
   imgEl.src = iconUrl;
-  // Display image
   headerContainerEl.appendChild(imgEl);
 
   // API gives us temperature in F
@@ -85,6 +86,7 @@ const updateCurrentWeather = function(data, name) {
   // API gives wind speed in MPH
   let wind = data.current.wind_speed;
   // Update element with wind speed
+  console.log(wind);
   windEl.textContent = `Wind: ${Math.round(wind)} MPH`;
 
   // API gives humidity in percentage
