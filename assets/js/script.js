@@ -28,11 +28,21 @@ const generateCoordinates = function(event) {
   const updatedGeocodeUrl = `${geocodeUrl}${cityName},${usaCountryCode}`;
 
   fetch(updatedGeocodeUrl).then(function(response) {
-    response.json().then(function(data) {
-      const cityObj = data[0];
-      return getWeather(cityObj);
-    })
+    if (response.ok) {
+      return response.json();
+    }
   })
+  .then(function(data) {
+    if (data.length === 0) {
+      return alert(`Could not find the city ${cityName}. Please check the spelling and try again.`);
+    }
+    const cityObj = data[0];
+    return getWeather(cityObj);
+  })
+  .catch(function(error) {
+    console.log(error);
+    return alert('Could not connect to OpenWeather Geocode API.');
+  }) 
 }
 
 // Gets weather information for a city given the city coordinates
@@ -43,20 +53,27 @@ const getWeather = function(cityObj) {
   let updatedForecastUrl = `${apiUrl}&lat=${lat}&lon=${lon}`;
 
   fetch(updatedForecastUrl).then(function(response) {
-    response.json().then(function(data) {
-      infoHandler(data, name);
-    })
+    if (response.ok) {
+      return response.json();
+    }
+  })
+  .then(function(data) {
+    return infoHandler(data, name);
+  })
+  .catch(function(error) {
+    console.log(error);
+    return alert('Could not connect to the OpenWeather One Call API.');
   })
 }
 
 const infoHandler = function(data, name) {
-  console.log(data)
-  console.log(name)
   const currentDate = getDate(parseInt(data.current.dt));
   updateCurrentWeather(data, name, currentDate);
   updateForecast(data);
   updateStorage(data, name)
   updateHistory();
+
+  return true;
 }
 
 // Updates 5-day forecast cards
@@ -253,12 +270,10 @@ const updateStorage = function(data, name) {
 
 // Updates side bar containing search history
 const updateHistory = function(data, name) {
-  console.log(localStorage.getItem('savedData'));
   let savedCities = JSON.parse(localStorage.getItem('savedData'))
 
   let buttonContainer = document.getElementById('search-history');
   let containerChildrenCount = buttonContainer.childElementCount;
-  console.log(containerChildrenCount)
 
   if (containerChildrenCount > 0) {
     // Remove previous buttons one by one
