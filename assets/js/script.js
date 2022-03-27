@@ -73,6 +73,7 @@ const updateForecast = function(data) {
   return true;
 }
 
+// Creates a day of the 5 day forecast given the weather data and an element ID starting at 1 going through 5
 const createCard = function(elId, data) {
   let cardEl = document.createElement('card');
   cardEl.id = `card-${elId}`;
