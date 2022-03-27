@@ -72,6 +72,7 @@ main {
   border: 2px solid grey;
   border-radius: 3px;
   padding: 10px;
+  background-color: rgb(255, 197, 197);
 }
 
 #current-city,
@@ -81,8 +82,25 @@ main {
   margin-bottom: 20px;
 }
 
+#uv-index {
+  border-radius: 3px;
+  padding: 3px 12px 3px 11px;
+  color: white;
+}
+
 #current-city {
   font-size: 28px;
+}
+
+#h2-container {
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+#current-weather-icon {
+  position: relative;
+  top: -10px;
 }
 
 #forecast {
