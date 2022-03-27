@@ -7,6 +7,7 @@ const humidityEl = document.getElementById('humidity');
 const uvEl = document.getElementById('uv-index');
 const currentWeatherIconEl = document.getElementById('current-weather-icon')
 const headerContainerEl = document.getElementById('h2-container');
+const searchHistoryEl = document.getElementById('search-history');
 // Base URL for weather API fetch
 const apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&units=imperial';
 // Base URL for converting city names into coordinates, add city name at the end for valid query
@@ -47,9 +48,13 @@ const getWeather = function(cityObj) {
 }
 
 const infoHandler = function(data, name) {
+  console.log(data)
+  console.log(name)
   const currentDate = getDate(parseInt(data.current.dt));
   updateCurrentWeather(data, name, currentDate);
   updateForecast(data);
+  updateStorage(data, name)
+  updateHistory();
 }
 
 // Updates 5-day forecast cards
@@ -127,7 +132,6 @@ const updateCurrentWeather = function(data, name, currentDate) {
   let iconUrl = `http://openweathermap.org/img/wn/${icon}.png`
 
   let imgTest = document.getElementById('current-weather-icon');
-  console.log(imgTest)
   // If image element already exists, delete it
   if (imgTest) {
     imgTest.remove();
@@ -148,7 +152,6 @@ const updateCurrentWeather = function(data, name, currentDate) {
   // API gives wind speed in MPH
   let wind = data.current.wind_speed;
   // Update element with wind speed
-  console.log(wind);
   windEl.textContent = `Wind: ${Math.round(wind)} MPH`;
 
   // API gives humidity in percentage
@@ -209,4 +212,83 @@ const getDate = function(timestamp) {
   return formattedDate;
 }
 
+// Updates recent history city search local storage
+const updateStorage = function(data, name) {
+  // Create city object to be stored locally
+  let cityObj = {
+    lat: data.lat,
+    lon: data.lon,
+    name: name
+  }
+
+  let savedCities = JSON.parse(localStorage.getItem('savedData'))
+
+  // Check if saved data already exists
+  if (!savedCities) {
+    savedCities = [];
+  }
+
+  // Check if city is already in saved history
+  for (let i=0; i < savedCities.length; i++) {
+    // If city already exists, shift it to the beginning of the history
+    if (savedCities[i].name === cityObj.name) {
+      savedCities.splice(i, 1)
+    }
+  }
+
+  // Add city to the front of the list
+  savedCities.unshift(cityObj);
+
+  // If list is over 8 objects in length, get rid of the last object
+  if (savedCities.length >= 8) {
+    savedCities.pop();
+  }
+
+  // Update local storage
+  localStorage.setItem('savedData', JSON.stringify(savedCities))
+  return true;
+}
+
+// Updates side bar containing search history
+const updateHistory = function(data, name) {
+  console.log(localStorage.getItem('savedData'));
+  let savedCities = JSON.parse(localStorage.getItem('savedData'))
+
+  let buttonContainer = document.getElementById('search-history');
+  let containerChildrenCount = buttonContainer.childElementCount;
+  console.log(containerChildrenCount)
+
+  if (containerChildrenCount > 0) {
+    // Remove previous buttons one by one
+    for (let i=0; i < savedCities.length; i++) {
+      let deleteMe = document.getElementById(`saved-city-${i+1}`)
+      deleteMe.remove();
+    }
+  }
+
+  // Add updated buttons
+  if (savedCities) {
+    for (let i=0; i < savedCities.length; i++) {
+      let buttonEl = document.createElement('button');
+      buttonEl.type = 'button';
+      buttonEl.className = 'saved-cities';
+      buttonEl.id = `saved-city-${i+1}`;
+      buttonEl.textContent = savedCities[i].name;
+  
+      buttonContainer.appendChild(buttonEl);
+    }
+  }
+  return true;
+}
+
+const clickHandler = function() {
+  // checks what ID button had
+  // loads lat, lon, and name from local storage
+  // passes coordinates to getWeather function
+}
+
 submitFormEl.addEventListener('submit', generateCoordinates)
+
+searchHistoryEl.addEventListener('click', clickHandler);
+
+updateHistory();
