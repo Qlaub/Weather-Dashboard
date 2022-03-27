@@ -118,7 +118,7 @@ main {
   flex-direction: row;
 }
 
-#day-card {
+.day-card {
   width: 20%;
   margin: 10px 20px 0 20px;
   background-color: rgb(60, 34, 78);
@@ -126,15 +126,14 @@ main {
   padding: 14px 10px;
 }
 
-#day-card h4 {
-  font-size: 18px;
+.day-card h4 {
+  font-size: 20px;
   margin-bottom: 18px;
 }
 
-#day-card span,
-#day-card p {
+.day-card p {
   margin-top: 18px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .saved-cities {
@@ -146,6 +145,11 @@ main {
   letter-spacing: .3px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.day-card h4,
+.day-card p {
+  padding: 11.75px 0;
 }
 
 .saved-cities:hover {

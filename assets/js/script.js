@@ -7,12 +7,12 @@ const humidityEl = document.getElementById('humidity');
 const uvEl = document.getElementById('uv-index');
 const currentWeatherIconEl = document.getElementById('current-weather-icon')
 const headerContainerEl = document.getElementById('h2-container');
-
 // Base URL for weather API fetch
 const apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&units=imperial';
 // Base URL for converting city names into coordinates, add city name at the end for valid query
 const geocodeUrl = 'http://api.openweathermap.org/geo/1.0/direct?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&q=';
 
+// Gets coordinates of a city given the city name
 const generateCoordinates = function(event) {
   event.preventDefault();
 
@@ -32,6 +32,7 @@ const generateCoordinates = function(event) {
   })
 }
 
+// Gets weather information for a city given the city coordinates
 const getWeather = function(cityObj) {
   let lat = cityObj.lat;
   let lon = cityObj.lon;
@@ -46,19 +47,79 @@ const getWeather = function(cityObj) {
 }
 
 const infoHandler = function(data, name) {
-  updateCurrentWeather(data, name);
+  const currentDate = getDate(parseInt(data.current.dt));
+  updateCurrentWeather(data, name, currentDate);
   updateForecast(data);
 }
 
+// Updates 5-day forecast cards
 const updateForecast = function(data) {
-  // updates 5-day forecast cards
-  console.log(data)
+
+  // Checks if cards already exist
+  if (document.getElementById('card-1') != null) {
+    // Deletes them if so
+    for (let i=0; i < 5; i++) {
+      let toBeDeletedEl = document.getElementById(`card-${i+1}`);
+      toBeDeletedEl.remove();
+    }
+  }
+
+  // Create each day card
+  for (let i=0; i < 5; i++) {
+    let elId = i+1;
+    createCard(elId, data);
+  }
+
+  return true;
 }
 
-const updateCurrentWeather = function(data, name) {
+const createCard = function(elId, data) {
+  let cardEl = document.createElement('card');
+  cardEl.id = `card-${elId}`;
+  cardEl.className = 'day-card';
+
+  // Create date header
+  let headerEl = document.createElement('h4');
+  let timestamp = data.daily[elId].dt
+  headerEl.textContent = `${getDate(timestamp)}`
+  cardEl.appendChild(headerEl);
+  
+  // Create weather icon
+  let icon = data.daily[elId].weather[0].icon
+  let iconUrl = `http://openweathermap.org/img/wn/${icon}.png`
+  let imgEl = document.createElement('img');
+  imgEl.className = 'forecast-icon';
+  imgEl.src = iconUrl;
+  cardEl.appendChild(imgEl);
+
+  // Create temperature text
+  let tempEl = document.createElement('p');
+  // Averages minimum and max temperatures on particular day
+  let temp = (parseInt(data.daily[elId].temp.max) + parseInt(data.daily[elId].temp.min)) / 2
+  tempEl.textContent = `Temp: ${Math.round(temp)}\u00B0 F`
+  cardEl.appendChild(tempEl);
+
+  // Create wind text
+  let windEl = document.createElement('p');
+  let wind = data.daily[elId].wind_speed;
+  windEl.textContent = `Wind: ${Math.round(wind)} MPH`;
+  cardEl.appendChild(windEl);
+
+  // Create humidity text
+  let humidityEl = document.createElement('p');
+  let humidity = data.daily[elId].humidity;
+  humidityEl.textContent = `Humidity: ${humidity}%`;
+  cardEl.appendChild(humidityEl);
+
+  let containerEl = document.getElementById('five-day-container');
+  containerEl.appendChild(cardEl);
+}
+
+// Updates weather info for current day
+const updateCurrentWeather = function(data, name, currentDate) {
 
   // Update city name being displayed, extra spaces to separate icon
-  cityNameEl.textContent = `${name}    `;
+  cityNameEl.textContent = `${name} (${currentDate})   `;
 
   // API icon for current weather conditions
   let icon = data.current.weather[0].icon
@@ -111,6 +172,40 @@ const updateCurrentWeather = function(data, name) {
   }
 
   return true;
+}
+
+// Finds current date given timezone offset from UTC in seconds
+const getCurrentDate = function(timezoneOffset) {
+
+  // Date is in UTC time
+  const today = new Date();
+  // Local hour difference from UTC time, timezoneOffset is given in seconds
+  const hourDisplacement = timezoneOffset / 60 / 60
+  // Checks local date compared to UTC date
+  let todayDate = undefined;
+  if (today.getHours() + hourDisplacement < 0 ) {
+    // If UTC timezone is a day ahead, subtract a day from the local calendar date
+    todayDate = `${today.getMonth()+1}/${today.getDate()-1}/${today.getFullYear()}`;
+  } else if (today.getHours() + hourDisplacement > 23) {
+    // If UTC timezone is a day behind, add a day to the local calendar date
+    todayDate = `${today.getMonth()+1}/${today.getDate()+1}/${today.getFullYear()}`;
+  } else {
+    // Else it's the same day
+    todayDate = `${today.getMonth()+1}/${today.getDate()}/${today.getFullYear()}`;
+  }
+  return todayDate;
+}
+
+// Gives date in dd/mm/yyyy given a unix timestamp in seconds
+const getDate = function(timestamp) {
+
+  // new date expects milliseconds, so we multiply timestamp by 1000
+  const date = new Date(timestamp * 1000);
+
+  // date formatted in dd/mm/yyyy
+  const formattedDate = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
+
+  return formattedDate;
 }
 
 submitFormEl.addEventListener('submit', generateCoordinates)
