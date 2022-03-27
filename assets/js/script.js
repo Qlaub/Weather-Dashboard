@@ -21,14 +21,16 @@ const generateCoordinates = function(event) {
   if (!submitTextEl.value) {
     return alert('Please enter a city name');
   }
-  let usaCountryCode = 'US';
-  let cityName = submitTextEl.value.trim();
-  let updatedGeocodeUrl = `${geocodeUrl}${cityName},${usaCountryCode}`;
+
+  const usaCountryCode = 'US';
+  const cityName = submitTextEl.value.trim();
+  submitTextEl.value = '';
+  const updatedGeocodeUrl = `${geocodeUrl}${cityName},${usaCountryCode}`;
 
   fetch(updatedGeocodeUrl).then(function(response) {
     response.json().then(function(data) {
-      cityObj = data[0];
-      getWeather(cityObj)
+      const cityObj = data[0];
+      return getWeather(cityObj);
     })
   })
 }
@@ -240,7 +242,7 @@ const updateStorage = function(data, name) {
   savedCities.unshift(cityObj);
 
   // If list is over 8 objects in length, get rid of the last object
-  if (savedCities.length >= 8) {
+  if (savedCities.length > 8) {
     savedCities.pop();
   }
 
@@ -260,7 +262,7 @@ const updateHistory = function(data, name) {
 
   if (containerChildrenCount > 0) {
     // Remove previous buttons one by one
-    for (let i=0; i < savedCities.length; i++) {
+    for (let i=0; i < containerChildrenCount; i++) {
       let deleteMe = document.getElementById(`saved-city-${i+1}`)
       deleteMe.remove();
     }
@@ -281,10 +283,17 @@ const updateHistory = function(data, name) {
   return true;
 }
 
-const clickHandler = function() {
-  // checks what ID button had
-  // loads lat, lon, and name from local storage
-  // passes coordinates to getWeather function
+const clickHandler = function(event) {
+  if (event.target.type === 'button') {
+    // Get index in local storage relating to button clicked
+    let index = event.target.id.replace('saved-city-', '')
+    index = parseInt(index) - 1;
+
+    let storage = JSON.parse(localStorage.getItem('savedData'));
+    cityObj = storage[index];
+
+    getWeather(cityObj);
+  }
 }
 
 submitFormEl.addEventListener('submit', generateCoordinates)
