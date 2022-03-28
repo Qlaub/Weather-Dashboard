@@ -11,7 +11,7 @@ const searchHistoryEl = document.getElementById('search-history');
 // Base URL for weather API fetch
 const apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&units=imperial';
 // Base URL for converting city names into coordinates, add city name at the end for valid query
-const geocodeUrl = 'http://api.openweathermap.org/geo/1.0/direct?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&q=';
+const geocodeUrl = 'https://api.openweathermap.org/geo/1.0/direct?appid=67cb8234fa480d50fdcf3a0cdfb94ffb&q=';
 
 // Gets coordinates of a city given the city name
 const generateCoordinates = function(event) {
