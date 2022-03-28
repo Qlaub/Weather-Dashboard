@@ -11,17 +11,18 @@ body {
 header {
   display: flex;
   justify-content: center;
-  margin: 30px 25px 15px 25px; 
+  margin: 30px 25px 25px 25px; 
 }
 
 header h1 {
   background-image: linear-gradient(to bottom right, navy, purple, orange);
   color: white;
-  border: 1px solid rgb(92, 0, 92);
   text-align: center;
-  padding: 10px 0;
+  padding: 18px 0;
   width: 100%;
   flex-shrink: 0;
+  font-size: 42px;
+  letter-spacing: .4px;
 }
 
 main {
@@ -31,6 +32,7 @@ main {
 #search-and-history-container {
   width:25%;
   padding: 0 10px 0 25px;
+  margin-right: 8px;
 }
 
 #display-container {
@@ -42,12 +44,16 @@ main {
   border-bottom: 2px solid grey;
 }
 
+#submit-form h2 {
+  letter-spacing: .4px;
+}
+
 #search-text {
   width: 100%;
   border: 1px grey solid;
   border-radius: 5px;
-  font-size: 15px;
-  padding: 10px;
+  font-size: 18px;
+  padding: 12px;
   margin: 15px 0px;
   letter-spacing: .3px;
 }
@@ -56,10 +62,11 @@ main {
   width: 100%;
   border: none;
   border-radius: 5px;
-  padding: 8px;
+  padding: 10px 8px;
   background-color: purple;
   color: white;
-  letter-spacing: .3px;
+  letter-spacing: .7px;
+  font-size: 18px;
   margin-bottom: 15px;
   cursor: pointer;
 }
@@ -70,16 +77,22 @@ main {
 
 #current-city-container {
   border: 2px solid grey;
-  border-radius: 3px;
-  padding: 10px;
-  background-color: rgb(255, 197, 197);
+  border-radius: 6px;
+  padding: 15px 15px;
+  background-color: rgba(138, 13, 118, 0.22);
+  margin-bottom: 25px;
+}
+
+#current-city-container p {
+  letter-spacing: .4px;
+  font-size: 18px;
 }
 
 #current-city,
 #temp,
 #wind,
 #humidity {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 #uv-index {
@@ -90,6 +103,7 @@ main {
 
 #current-city {
   font-size: 28px;
+  letter-spacing: .4px;
 }
 
 #h2-container {
@@ -108,8 +122,9 @@ main {
 }
 
 #forecast h3 {
-  font-size: 20px;
-  letter-spacing: .2px;
+  font-size: 23px;
+  letter-spacing: .4px;
+  margin-left: 5px;
 }
 
 #five-day-container {
@@ -121,19 +136,20 @@ main {
 .day-card {
   width: 20%;
   margin: 10px 20px 0 20px;
-  background-color: rgb(60, 34, 78);
-  color: white;
-  padding: 14px 10px;
+  background-color: rgba(255, 0, 24, 0.24);
+  color: black;
+  padding: 12px 16px;
+  border-radius: 10px;
 }
 
 .day-card h4 {
   font-size: 20px;
-  margin-bottom: 18px;
+  letter-spacing: .4px;
 }
 
 .day-card p {
-  margin-top: 18px;
-  font-size: 16px;
+  font-size: 17px;
+  letter-spacing: .4px;
 }
 
 .saved-cities {
@@ -142,7 +158,8 @@ main {
   background-color: rgb(201, 201, 201);
   margin-top: 15px;
   padding: 8px;
-  letter-spacing: .3px;
+  letter-spacing: .7px;
+  font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
 }
